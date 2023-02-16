@@ -1,4 +1,4 @@
-﻿namespace AnimalsDI.Constants;
+﻿namespace AbstractEngine.Constants;
 
 public static class AnimalSpeechConstants
 {

@@ -1,6 +1,6 @@
-﻿using AnimalsDI.Animals;
-using AnimalsDI.Animals.Abstraction;
-using AnimalsDI.Constants;
+﻿using AbstractEngine.Animals;
+using AbstractEngine.Animals.Abstraction;
+using AbstractEngine.Constants;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Tests
@@ -11,20 +11,19 @@ namespace Tests
         [TestMethod]
         [DataRow(nameof(Cat))]
         [DataRow(nameof(Dog))]
-        [DataRow(nameof(Bunny))]
+        [DataRow(nameof(Cow))]
         public void AnimalImplementationsShouldReturnCorrectSpeakMessage(string animalType)
         {
             // Arrange
-            var animal = Helpers.GetInstance<Animal?>(
-                $"AnimalsDI.Animals.{animalType}",
-                "AnimalName_MSTest");
+            var animal = Helpers.GetInstance<IAnimal?>(
+                $"{nameof(AbstractEngine)}.Animals.{animalType}");
 
             if (animal == null)
             {
-                Assert.Fail($"Requested type - {animalType} does not exist or does not inherit the abstract class {nameof(Animal)}.");
+                Assert.Fail($"Requested type - {animalType} does not exist or does not implement {nameof(IAnimal)}.");
             }
             
-            var expectedMessage = string.Format(AnimalSpeechConstants.BaseAnimalSpeech, animal.Name, animal.Sound);
+            var expectedMessage = string.Format(AnimalSpeechConstants.BaseAnimalSpeech, animal.AnimalType, animal.Sound);
 
             // Act
             var resultMessage = animal.Speak();

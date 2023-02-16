@@ -2,7 +2,7 @@
 {
     public static class Helpers
     {
-        public static DerivedType? GetInstance<DerivedType>(string classTypeFullName, params object?[]? args)
+        public static DerivedType? GetInstance<DerivedType>(string classTypeFullName)
         {
             Type type = Type.GetType(classTypeFullName);
 
@@ -12,14 +12,14 @@
             }
 
             // Check other assemblies
-            foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
             {
-                type = asm.GetType(classTypeFullName);
+                type = assembly.GetType(classTypeFullName);
 
                 if (type != null &&
                     typeof(DerivedType).IsAssignableFrom(type))
                 {
-                    return (DerivedType?)Activator.CreateInstance(type, args);
+                    return (DerivedType?)Activator.CreateInstance(type);
                 }
             }
 
